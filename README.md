@@ -57,7 +57,7 @@ from sockjs.tornado import SockJSRouter, SockJSConnection
 # Set Django Environment
 os.environ['DJANGO_SETTINGS_MODULE'] = 'django_project.settings'
 
-from blimp.utils.websockets import WebSocketRequest
+from wsrequest import WebSocketRequest
 
 
 class RESTAPIConnection(SockJSConnection):
