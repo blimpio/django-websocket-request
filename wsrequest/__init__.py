@@ -4,7 +4,7 @@ from django.test.client import RequestFactory
 from django.core.urlresolvers import resolve, Resolver404
 
 
-__version__ = '0.0.1'
+__version__ = '0.1.0'
 
 # Version synonym
 VERSION = __version__
