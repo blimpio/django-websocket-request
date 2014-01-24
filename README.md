@@ -62,7 +62,7 @@ from blimp.utils.websockets import WebSocketRequest
 
 class RESTAPIConnection(SockJSConnection):
     def on_open(self, info):
-        self.send_json(json.dumps({'connected': True}))
+        self.send(json.dumps({'connected': True}))
 
     def on_message(self, data):
         response = WebSocketRequest(data).get_response()
