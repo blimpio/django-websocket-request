@@ -9,8 +9,9 @@ import sys
 
 name = 'django-websocket-request'
 package = 'wsrequest'
-description = ''
-url = ''
+description = ("Support for Django's request/response lifecycle to"
+               "automatically handle WebSocket messages.")
+url = 'https://github.com/GetBlimp/django-websocket-request'
 author = 'Jose Padilla'
 author_email = 'jpadilla@getblimp.com'
 license = 'MIT'
