@@ -46,6 +46,10 @@ The method key can be any HTTP method: GET, POST, PUT, DELETE, PATCH, HEAD, or O
 }
 ```
 
+## Live Demo
+
+Check out [GetBlimp/django-websocket-request-example](https://github.com/GetBlimp/django-websocket-request-example) for an example implementation and a live demo.
+
 ## Example implementation with sockjs + tornado
 ```python
 import os
