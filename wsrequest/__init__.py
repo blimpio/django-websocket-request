@@ -11,9 +11,12 @@ VERSION = __version__
 
 
 class WebSocketRequest(object):
-    def __init__(self, message):
+    def __init__(self, message, factory_defaults=None):
         self.message = message
+        self.factory_defaults = factory_defaults
         self.error = None
+
+        self.validate()
 
     def get_url(self):
         return self.json_message.get('url')
@@ -33,27 +36,20 @@ class WebSocketRequest(object):
             'status_code': status_code
         }
 
-    def is_valid(self):
-        is_valid = False
-
+    def validate(self):
         if self.is_valid_message():
             self.url = self.get_url()
             self.method = self.get_method()
             self.data = self.get_data()
             self.token = self.get_token()
 
-            if not self.url:
+            if self.url:
+                self.get_url_resolver_match()
+            else:
                 self.set_error('Missing URL')
-                return False
 
-            resolver_match = self.get_url_resolver_match()
-
-            if not resolver_match:
-                return False
-
-            is_valid = True
-
-        return is_valid
+    def is_valid(self):
+        return not self.error
 
     def is_valid_message(self):
         try:
@@ -76,6 +72,9 @@ class WebSocketRequest(object):
 
         if self.token:
             defaults['HTTP_AUTHORIZATION'] = "JWT {0}".format(self.token)
+
+        if self.factory_defaults:
+            defaults.update(self.factory_defaults)
 
         return RequestFactory(**defaults)
 

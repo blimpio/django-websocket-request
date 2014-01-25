@@ -333,3 +333,41 @@ class WebSocketRequestTestCase(TestCase):
         json_content = json.loads(response.content.decode('utf-8'))
 
         self.assertEqual(json_content['HTTP_AUTHORIZATION'], None)
+
+    def test_initializing_should_validate(self):
+        data = {
+            'url': '/api/nonexistent/',
+        }
+
+        message = json.dumps(data)
+        wsrequest = WebSocketRequest(message)
+
+        expected_error = {
+            'status_code': 404,
+            'error': 'Resource not found.'
+        }
+
+        self.assertEqual(wsrequest.error, expected_error)
+
+    def test_factory_defaults_should_update_request_factory_defaults(self):
+        data = {
+            'url': '/api/restricted/',
+            'method': 'get',
+        }
+
+        message = json.dumps(data)
+
+        defaults = {
+            'REMOTE_ADDR': '123.123.123.123',
+            'SERVER_NAME': 'TheDefiant',
+            'HTTP_X_FORWARDED_FOR': '123.123.123.123'
+        }
+
+        wsrequest = WebSocketRequest(message, defaults)
+        factory = wsrequest.get_factory()
+        request = wsrequest.get_request(factory)
+
+        self.assertEqual(request.META['REMOTE_ADDR'], defaults['REMOTE_ADDR'])
+        self.assertEqual(request.META['SERVER_NAME'], defaults['SERVER_NAME'])
+        self.assertEqual(request.META['HTTP_X_FORWARDED_FOR'],
+                         defaults['HTTP_X_FORWARDED_FOR'])
