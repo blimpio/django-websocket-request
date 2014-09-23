@@ -5,6 +5,8 @@
 ## Overview
 This package provides support for transport agnostic routing to allow the Django's request/response lifecycle to automatically WebSocket messages. It borrows a WebSocket message format from [Sails.js](http://sailsjs.org/).
 
+**Note**: This is more of an experiment than anything else. We are not using this in any projects. This has a huge limitation, sending messages on events initiated by the server is not possible, so you're only able to do one way communication from the browser to the server.
+
 ## Installation
 
 Install using `pip`...
